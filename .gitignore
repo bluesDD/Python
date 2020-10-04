@@ -15,3 +15,4 @@ for i in string:
     else:
         odd+=i
 print(lower+upper+odd+even)
+.env
