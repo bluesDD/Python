@@ -11,12 +11,28 @@ from __future__ import print_function
 import os
 
 import tweepy
+from dotenv import load_dotenv
 
 try:
     input = raw_input
 except NameError:
     pass
 
+
+def getEnvVars():
+    load_dotenv(verbose=True)
+    dotenv_file = ".env"
+    dotenv_path = os.path.join(os.path.dirname(__file__), dotenv_file)
+    load_dotenv(dotenv_path)
+
+    twitter_api_key = os.environ.get("TWITTER_API_KEY")
+    twitter_api_key_secret = os.environ.get("TWITTER_API_KEY_SECRET")
+    twitter_access_token = os.environ.get("TWITTER_ACCESS_TOKEN")
+    twitter_access_token_secret = os.environ.get("TWITTER_ACCESS_TOKEN_SECRET")
+
+    secrets = [twitter_api_key, twitter_api_key_secret, twitter_access_token, twitter_access_token_secret]
+
+    return secrets
 
 def getStatus():
     lines = []
@@ -55,10 +71,10 @@ def tweetthis(type):
 
 def initialize():
     global api, auth, user
-    ck = "here"  # consumer key
-    cks = "here"  # consumer key SECRET
-    at = "here"  # access token
-    ats = "here"  # access token SECRET
+    ck = getEnvVars()[0]  # consumer key
+    cks = getEnvVars()[1]  # consumer key SECRET
+    at = getEnvVars()[2]  # access token
+    ats = getEnvVars()[3]  # access token SECRET
 
     auth = tweepy.OAuthHandler(ck, cks)
     auth.set_access_token(at, ats)
